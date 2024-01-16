@@ -1,3 +1,4 @@
+package src;
 
 enum Mark{
         X,
