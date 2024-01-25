@@ -14,7 +14,7 @@ public class Test {
 		System.out.println("here");
 		Board board = new Board();
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		while (board.evaluate(Mark.X) == 0)
+		while (board.evaluate(Mark.X) == 0 && !board.IsFull())
 		{
 			System.out.print("Play>");
 			String input = reader.readLine();
@@ -51,6 +51,18 @@ public class Test {
 			Move move = new Move(row,column);
 			board.play(move,mark);
 			board.PrintBoard();
+		}
+		if (board.evaluate(Mark.X) == 100)
+		{
+			System.out.println("X wins");
+		}
+		else if (board.evaluate(Mark.X) == -100)
+		{
+			System.out.println("O wins");
+		}
+		else
+		{
+			System.out.println("It's a draw");
 		}
 	}
 }

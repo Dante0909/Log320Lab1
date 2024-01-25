@@ -24,7 +24,7 @@ class Board
     //
     // Ne pas changer la signature de cette méthode
     public void play(Move m, Mark mark){
-		if(board[m.getRow()][m.getCol()] == Mark.EMPTY){
+		if((m.getRow() >= 0 && m.getRow() <= 2) && (m.getCol() >= 0 && m.getCol() <= 2) && board[m.getRow()][m.getCol()] == Mark.EMPTY){
 			board[m.getRow()][m.getCol()] = mark;
 		}
     }
@@ -82,5 +82,17 @@ class Board
 		if (mark == Mark.X) return "X";
 		if (mark == Mark.O) return "O";
 		return " ";
+	}
+
+	public boolean IsFull()
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				if (board[i][j] == Mark.EMPTY) return false;
+			}
+		}
+		return true;
 	}
 }
