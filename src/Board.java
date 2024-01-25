@@ -101,6 +101,6 @@ class Board
 
 	public void UndoMove(Move move)
 	{
-		board[m.getRow()][m.getCol()] = Mark.EMPTY;
+		board[move.getRow()][move.getCol()] = Mark.EMPTY;
 	}
 }

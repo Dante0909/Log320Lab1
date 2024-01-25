@@ -47,7 +47,7 @@ class CPUPlayer
     				
     				int eval = minimax(board, numExploredNodes, true);
     				
-    				//board.undo
+    				board.UndoMove(m);
     				
     				if(eval > maxVal) {
     					moves.clear();
@@ -64,7 +64,7 @@ class CPUPlayer
     	
     	
         numExploredNodes = 0;
-        return null;
+        return moves;
     }
 
     // Retourne la liste des coups possibles.  Cette liste contient
@@ -97,7 +97,7 @@ class CPUPlayer
     				
     				if(isMax) best = Math.max(best, minimax(board, numExploredNodes, !isMax));
     				
-    				//board.undo
+    				board.UndoMove(move);
     				
     			}
     			
