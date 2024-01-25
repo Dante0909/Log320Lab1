@@ -16,15 +16,17 @@ class Board
     	for(Mark[] row: board) {
     		Arrays.fill(row, Mark.EMPTY);
     	}
-    	System.out.println(board[2][2]);
     }
-
+    
+    public Mark[][] getMarks(){
+    	return board;
+    }
     // Place la pièce 'mark' sur le plateau, à la
     // position spécifiée dans Move
     //
     // Ne pas changer la signature de cette méthode
     public void play(Move m, Mark mark){
-		if(board[m.getRow()][m.getCol()] == Mark.Empty){
+		if(board[m.getRow()][m.getCol()] == Mark.EMPTY){
 			board[m.getRow()][m.getCol()] = mark;
 		}
     }
@@ -39,7 +41,7 @@ class Board
 		{
 			return 100;
 		}
-		else if ((mark == Mark.X && won(Mark.O, board)) || (mark = Mark.O && won(Mark.X, board)))
+		else if ((mark == Mark.X && won(Mark.O, board)) || (mark == Mark.O && won(Mark.X, board)))
 		{
 			return -100;
 		}

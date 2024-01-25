@@ -30,6 +30,7 @@ class CPUPlayer
     // ont le même score.
     public ArrayList<Move> getNextMoveMinMax(Board board)
     {
+    	
         numExploredNodes = 0;
         return null;
     }
@@ -42,4 +43,18 @@ class CPUPlayer
         return null;
     }
 
+    
+    private int minimax(Board board, int depth, boolean isMax) {
+    	numExploredNodes++;
+    	
+    	Mark[][] state = board.getMarks();
+    	for(int i = 0; i < state.length; ++i) {
+    		for(int j = 0; j < state[i].length; ++j) {
+    			
+    		}
+    	}
+
+    	
+    	return 0;	
+    }
 }
