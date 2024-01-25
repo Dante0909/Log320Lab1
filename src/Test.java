@@ -50,6 +50,7 @@ public class Test {
 			}
 			Move move = new Move(row,column);
 			board.play(move,mark);
+			// Minmax/Alpha-beta
 			board.PrintBoard();
 		}
 		if (board.evaluate(Mark.X) == 100)
