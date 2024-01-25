@@ -98,4 +98,9 @@ class Board
 		}
 		return true;
 	}
+
+	public void UndoMove(Move move)
+	{
+		board[m.getRow()][m.getCol()] = Mark.EMPTY;
+	}
 }
