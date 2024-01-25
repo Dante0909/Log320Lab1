@@ -96,6 +96,7 @@ class CPUPlayer
     				board.play(move, m);
     				
     				if(isMax) best = Math.max(best, minimax(board, numExploredNodes, !isMax));
+    				else best = Math.min(best, minimax(board,numExploredNodes,!isMax));
     				
     				board.UndoMove(move);
     				
