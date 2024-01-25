@@ -38,7 +38,7 @@ class Board
 		{
 			return 100;
 		}
-		else if ((mark == Mark.X && won(Mark.O, board)) || (mark = Mark.O && won(Mark.X, board)))
+		else if ((mark == Mark.X && won(Mark.O, board)) || (mark == Mark.O && won(Mark.X, board)))
 		{
 			return -100;
 		}
@@ -68,4 +68,18 @@ class Board
     		
     	return false;
     }
+
+	public void PrintBoard()
+	{
+		System.out.println(PrintMark(board[0][0]) + PrintMark(board[0][1]) + PrintMark(board[0][2]));
+		System.out.println(PrintMark(board[1][0]) + PrintMark(board[1][1]) + PrintMark(board[1][2]));
+		System.out.println(PrintMark(board[2][0]) + PrintMark(board[2][1]) + PrintMark(board[2][2]));
+	}
+
+	private String PrintMark(Mark mark)
+	{
+		if (mark == Mark.X) return "X";
+		if (mark == Mark.O) return "O";
+		return " ";
+	}
 }
