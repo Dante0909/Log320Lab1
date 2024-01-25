@@ -34,7 +34,15 @@ class Board
     //           0   pour un match nul
     // Ne pas changer la signature de cette méthode
     public int evaluate(Mark mark){
-    	return 0;
+    	if (won(mark, board))
+		{
+			return 100;
+		}
+		else if ((mark == Mark.X && won(Mark.O, board)) || (mark = Mark.O && won(Mark.X, board)))
+		{
+			return -100;
+		}
+		return 0;
     }
     
     public boolean won(Mark player, Mark[][] b) {
