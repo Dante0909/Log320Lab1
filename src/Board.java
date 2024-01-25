@@ -24,7 +24,7 @@ class Board
     //
     // Ne pas changer la signature de cette méthode
     public void play(Move m, Mark mark){
-		if(board[m.getRow()][m.getCol()] == Mark.Empty){
+		if(board[m.getRow()][m.getCol()] == Mark.EMPTY){
 			board[m.getRow()][m.getCol()] = mark;
 		}
     }
@@ -39,7 +39,7 @@ class Board
 		{
 			return 100;
 		}
-		else if ((mark == Mark.X && won(Mark.O, board)) || (mark = Mark.O && won(Mark.X, board)))
+		else if ((mark == Mark.X && won(Mark.O, board)) || (mark == Mark.O && won(Mark.X, board)))
 		{
 			return -100;
 		}
