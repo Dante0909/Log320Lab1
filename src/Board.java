@@ -24,8 +24,9 @@ class Board
     //
     // Ne pas changer la signature de cette méthode
     public void play(Move m, Mark mark){
-
-
+		if(board[m.getRow()][m.getCol()] == Mark.EMPTY){
+			board[m.getRow()][m.getCol()] = mark;
+		}
     }
 
 
