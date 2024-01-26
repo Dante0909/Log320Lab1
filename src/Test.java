@@ -14,12 +14,17 @@ public class Test {
 		// TODO Auto-generated method stub
 		
 		Board board = new Board();
-		CPUPlayer ai = new CPUPlayer(Mark.O);
+		CPUPlayer ai = new CPUPlayer(Mark.X);
+		var test = ai.getNextMoveMinMax(board);
+		//9 moves with equal value(tie)
+		
+		Move m = new Move(0,0);
+		board.play(m, Mark.X);
+		Move m2 = new Move(0,2);
+		board.play(m2, Mark.O);
 		ArrayList<Move> moves = ai.getNextMoveMinMax(board);
-		
-		System.out.println(moves.size());
-		
-		
+		//3 moves with equal value (win)
+				
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (board.evaluate(Mark.X) == 0 && !board.IsFull())
 		{
@@ -57,6 +62,8 @@ public class Test {
 			}
 			Move move = new Move(row,column);
 			board.play(move,mark);			
+			
+			
 			
 			board.PrintBoard();
 		}

@@ -42,10 +42,10 @@ class CPUPlayer
     			
     			if(state[i][j] == Mark.EMPTY) {
     				Move m = new Move(i,j);
-    				board.play(m, player);
+    				board.play(m, cpu);
     				
     				
-    				int eval = minimax(board, numExploredNodes, true);
+    				int eval = minimax(board, numExploredNodes, false);
     				
     				board.UndoMove(m);
     				
@@ -74,20 +74,19 @@ class CPUPlayer
         numExploredNodes = 0;
         return null;
     }
-
     
     private int minimax(Board board, int depth, boolean isMax) {
     	numExploredNodes++;
     	
-    	int score = board.evaluate(isMax ? cpu : player);
+    	int score = board.evaluate(cpu);
     	
-    	if(board.IsFull()) return score;
+    	if(board.IsFull() || score != 0) return score;
     	
     	Mark[][] state = board.getMarks();
-    	int best = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-    	Mark m = isMax ? cpu : player;
+    	//int best = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+    	//Mark m = isMax ? player : cpu;
     	
-    	for(int i = 0; i < state.length; ++i) {
+    	/*for(int i = 0; i < state.length; ++i) {
     		for(int j = 0; j < state[i].length; ++j) {
     			
     			if(state[i][j] == Mark.EMPTY) {
@@ -103,9 +102,44 @@ class CPUPlayer
     			}
     			
     		}
+    	}*/
+    	
+    	//J'ai séparé en deux for loop pour clarité mais celle au dessus fait la même chose
+    	
+    	if(isMax) {
+    		int best = Integer.MIN_VALUE;
+    		Mark m = cpu;
+    		for(int i = 0; i < state.length; ++i) {
+        		for(int j = 0; j < state[i].length; ++j) {
+        			if(state[i][j] == Mark.EMPTY) {
+        				Move move = new Move(i , j);
+            			board.play(move, m);
+            			best = Math.max(best, minimax(board, numExploredNodes, !isMax));
+            			board.UndoMove(move);            			
+        			}
+        			
+        		}
+        	}
+    		return best;
+    	}
+    	else {
+    		int best = Integer.MAX_VALUE;
+    		Mark m = player;
+    		for(int i = 0; i < state.length; ++i) {
+        		for(int j = 0; j < state[i].length; ++j) {
+        			if(state[i][j] == Mark.EMPTY) {
+        				
+        				Move move = new Move(i , j);
+            			board.play(move, m);
+            			best = Math.min(best, minimax(board, numExploredNodes, !isMax));
+            			board.UndoMove(move);
+        			}
+        		}
+        	}
+    		return best;
     	}
 
     	
-    	return best;	
+    	
     }
 }
