@@ -16,14 +16,17 @@ class Board
     	for(Mark[] row: board) {
     		Arrays.fill(row, Mark.EMPTY);
     	}
-    	System.out.println(board[2][2]);
     }
-
+    
+    public Mark[][] getMarks(){
+    	return board;
+    }
     // Place la pièce 'mark' sur le plateau, à la
     // position spécifiée dans Move
     //
     // Ne pas changer la signature de cette méthode
     public void play(Move m, Mark mark){
+
 		if((m.getRow() >= 0 && m.getRow() <= 2) && (m.getCol() >= 0 && m.getCol() <= 2) && board[m.getRow()][m.getCol()] == Mark.EMPTY){
 			board[m.getRow()][m.getCol()] = mark;
 		}
@@ -35,14 +38,16 @@ class Board
     //           0   pour un match nul
     // Ne pas changer la signature de cette méthode
     public int evaluate(Mark mark){
+    	
     	if (won(mark, board))
 		{
 			return 100;
 		}
-		else if ((mark == Mark.X && won(Mark.O, board)) || (mark == Mark.O && won(Mark.X, board)))
+    	else if ((mark == Mark.X && won(Mark.O, board)) || (mark == Mark.O && won(Mark.X, board)))
 		{
 			return -100;
-		}
+		} 
+		
 		return 0;
     }
     
@@ -98,6 +103,6 @@ class Board
 
 	public void UndoMove(Move move)
 	{
-		board[m.getRow()][m.getCol()] = Mark.EMPTY;
+		board[move.getRow()][move.getCol()] = Mark.EMPTY;
 	}
 }

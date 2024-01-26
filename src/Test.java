@@ -1,6 +1,7 @@
 package src;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.io.IOException;
 
 public class Test {
@@ -11,8 +12,19 @@ public class Test {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		System.out.println("here");
+		
 		Board board = new Board();
+		CPUPlayer ai = new CPUPlayer(Mark.X);
+		var test = ai.getNextMoveMinMax(board);
+		//9 moves with equal value(tie)
+		
+		Move m = new Move(0,0);
+		board.play(m, Mark.X);
+		Move m2 = new Move(0,2);
+		board.play(m2, Mark.O);
+		ArrayList<Move> moves = ai.getNextMoveMinMax(board);
+		//3 moves with equal value (win)
+				
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (board.evaluate(Mark.X) == 0 && !board.IsFull())
 		{
@@ -49,8 +61,10 @@ public class Test {
 				continue;
 			}
 			Move move = new Move(row,column);
-			board.play(move,mark);
-			// Minmax/Alpha-beta
+			board.play(move,mark);			
+			
+			
+			
 			board.PrintBoard();
 		}
 		if (board.evaluate(Mark.X) == 100)
