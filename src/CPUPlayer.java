@@ -46,7 +46,6 @@ class CPUPlayer
     				
     				
     				int eval = minimax(board, numExploredNodes, false);
-    				System.out.println(eval);
     				board.UndoMove(m);
     				
     				if(eval > maxVal) {

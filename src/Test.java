@@ -15,20 +15,23 @@ public class Test {
 		
 		Board board = new Board();
 		CPUPlayer ai = new CPUPlayer(Mark.X);
-		var test = ai.getNextMoveMinMax(board);
+		//var test = ai.getNextMoveMinMax(board);
 		//9 moves with equal value(tie)
-		
-		/*Move m = new Move(0,0);
+
+		/*
+		Move m = new Move(0,0);
 		board.play(m, Mark.X);
 		Move m2 = new Move(0,2);
-		board.play(m2, Mark.O);*/
-		ArrayList<Move> moves = ai.getNextMoveMinMax(board);
+		board.play(m2, Mark.O);
+		ArrayList<Move> moves = ai.getNextMoveMinMax(board);*/
+
 		//3 moves with equal value (win)
 				
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		System.out.print("You are O, AI is X.");
 		while (board.evaluate(Mark.X) == 0 && !board.IsFull())
 		{
-			System.out.print("Play your piece >");
+			System.out.print("Play your piece (ex O 0 0) > ");
 			String input = reader.readLine();
 			String[] inputParts = input.split(" ");
 			int column;
@@ -66,7 +69,7 @@ public class Test {
 			// Permettre à l'AI de jouer son coup
 			if(!board.IsFull()){
 				ArrayList<Move> aimoves = ai.getNextMoveMinMax(board);
-				board.play(aimoves.get(0),Mark.O);
+				board.play(aimoves.get(0),Mark.X);
 				System.out.println(aimoves.size() + " coups pour l'IA");
 			}
 
