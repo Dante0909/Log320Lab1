@@ -28,7 +28,7 @@ public class Test {
 		//3 moves with equal value (win)
 				
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		System.out.print("You are O, AI is X.");
+		System.out.println("You are O, AI is X.");
 		while (board.evaluate(Mark.X) == 0 && !board.IsFull())
 		{
 			System.out.print("Play your piece (ex O 0 0) > ");
@@ -70,7 +70,7 @@ public class Test {
 			if(!board.IsFull()){
 				ArrayList<Move> aimoves = ai.getNextMoveMinMax(board);
 				board.play(aimoves.get(0),Mark.X);
-				System.out.println(aimoves.size() + " coups pour l'IA");
+				System.out.println("AI has found " + aimoves.size() + " best moves. Picking the first (for now).");
 			}
 
 			board.PrintBoard();
