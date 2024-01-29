@@ -15,17 +15,6 @@ public class Test {
 		
 		Board board = new Board();
 		CPUPlayer ai = new CPUPlayer(Mark.X);
-		//var test = ai.getNextMoveMinMax(board);
-		//9 moves with equal value(tie)
-
-		/*
-		Move m = new Move(0,0);
-		board.play(m, Mark.X);
-		Move m2 = new Move(0,2);
-		board.play(m2, Mark.O);
-		ArrayList<Move> moves = ai.getNextMoveMinMax(board);*/
-
-		//3 moves with equal value (win)
 				
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("You are O, AI is X.");
@@ -44,7 +33,8 @@ public class Test {
 			}
 			if (inputParts[0].equals("X") || inputParts[0].equals("x"))
 			{
-				mark = Mark.X;
+				System.out.println("\nX are taken by AI. Try with O.\n");
+				continue;
 			}
 			else if (inputParts[0].equals("O") || inputParts[0].equals("o"))
 			{
@@ -63,6 +53,12 @@ public class Test {
 				System.out.println("Row and columns must be integers");
 				continue;
 			}
+
+			if(board.getMarks()[row][column] != Mark.EMPTY){
+				System.out.println("Trying to put a mark on an already taken case. Try again.");
+				continue;
+			}
+
 			Move move = new Move(row,column);
 			board.play(move,mark);
 
@@ -87,7 +83,5 @@ public class Test {
 		{
 			System.out.println("It's a draw");
 		}
-
-
 	}
 }
