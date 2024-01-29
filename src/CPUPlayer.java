@@ -140,30 +140,31 @@ class CPUPlayer
     		return best;
     	}
     	else {
-    		int best = Integer.MAX_VALUE;
-    		Mark m = player;
-    		for(int i = 0; i < state.length; ++i) {
-        		for(int j = 0; j < state[i].length; ++j) {
-        			if(state[i][j] == Mark.EMPTY) {
-        				
-        				Move move = new Move(i , j);
-            			board.play(move, m);
-            			best = Math.min(best, minimax(board, numExploredNodes, !isMax));
-            			board.UndoMove(move);
-        			}
-        		}
-        	}
+			int best = Integer.MAX_VALUE;
+			Mark m = player;
+			for (int i = 0; i < state.length; ++i) {
+				for (int j = 0; j < state[i].length; ++j) {
+					if (state[i][j] == Mark.EMPTY) {
+
+						Move move = new Move(i, j);
+						board.play(move, m);
+						best = Math.min(best, minimax(board, numExploredNodes, !isMax));
+						board.UndoMove(move);
+					}
+				}
+			}
+		}
     		return best;
-    	}
-		
-    public int miniMaxAB(Board board,Mark mark,int alpha, int beta, boolean isMax){
+	}
+
+    private int miniMaxAB(Board board,Mark mark,int alpha, int beta, boolean isMax){
         Mark max;
         Mark min;
         if(isMax){
             max = cpu;
             min = player;
         } else{
-            max = player
+            max = player;
             min = cpu;
         }
 
