@@ -28,7 +28,7 @@ public class Test {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (board.evaluate(Mark.X) == 0 && !board.IsFull())
 		{
-			System.out.print("Play>");
+			System.out.print("Play your piece, separated by spaces (ex X 0 0  => plays X at 0 0)>");
 			String input = reader.readLine();
 			String[] inputParts = input.split(" ");
 			int column;

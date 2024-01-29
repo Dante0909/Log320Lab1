@@ -153,10 +153,10 @@ class CPUPlayer
 					}
 				}
 			}
+			return best;
 		}
-    		return best;
 	}
-
+/*
     private int miniMaxAB(Board board,Mark mark,int alpha, int beta, boolean isMax){
         Mark max;
         Mark min;
@@ -192,5 +192,5 @@ class CPUPlayer
         else{
             //todo: joueur==Min
         }
-    }
+    }*/
 }
