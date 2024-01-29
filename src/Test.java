@@ -18,17 +18,17 @@ public class Test {
 		var test = ai.getNextMoveMinMax(board);
 		//9 moves with equal value(tie)
 		
-		Move m = new Move(0,0);
+		/*Move m = new Move(0,0);
 		board.play(m, Mark.X);
 		Move m2 = new Move(0,2);
-		board.play(m2, Mark.O);
+		board.play(m2, Mark.O);*/
 		ArrayList<Move> moves = ai.getNextMoveMinMax(board);
 		//3 moves with equal value (win)
 				
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		while (board.evaluate(Mark.X) == 0 && !board.IsFull())
 		{
-			System.out.print("Play your piece, separated by spaces (ex X 0 0  => plays X at 0 0)>");
+			System.out.print("Play your piece >");
 			String input = reader.readLine();
 			String[] inputParts = input.split(" ");
 			int column;
@@ -61,10 +61,15 @@ public class Test {
 				continue;
 			}
 			Move move = new Move(row,column);
-			board.play(move,mark);			
-			
-			
-			
+			board.play(move,mark);
+
+			// Permettre à l'AI de jouer son coup
+			if(!board.IsFull()){
+				ArrayList<Move> aimoves = ai.getNextMoveMinMax(board);
+				board.play(aimoves.get(0),Mark.O);
+				System.out.println(aimoves.size() + " coups pour l'IA");
+			}
+
 			board.PrintBoard();
 		}
 		if (board.evaluate(Mark.X) == 100)
@@ -79,5 +84,7 @@ public class Test {
 		{
 			System.out.println("It's a draw");
 		}
+
+
 	}
 }
