@@ -30,7 +30,7 @@ class CPUPlayer
     // Retourne la liste des coups possibles.  Cette liste contient
     // plusieurs coups possibles si et seuleument si plusieurs coups
     // ont le même score.
-    public ArrayList<Move> getNextMoveMinMax(Board board)
+    public ArrayList<Move> getNextMoveMinMax(Board board, boolean useAlphaBeta)
     {
     	ArrayList<Move> moves = new ArrayList<Move>();
     	int maxVal = Integer.MIN_VALUE;
@@ -44,8 +44,7 @@ class CPUPlayer
     				Move m = new Move(i,j);
     				board.play(m, cpu);
     				
-    				
-    				int eval = minimax(board, numExploredNodes, false);
+    				int eval = useAlphaBeta ? miniMaxAB(board,numExploredNodes,Integer.MIN_VALUE,Integer.MAX_VALUE,false) : minimax(board, numExploredNodes, false);
     				board.UndoMove(m);
     				
     				if(eval > maxVal) {
@@ -99,28 +98,6 @@ class CPUPlayer
     	if(board.IsFull() || score != 0) return score;
     	
     	Mark[][] state = board.getMarks();
-    	//int best = isMax ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-    	//Mark m = isMax ? player : cpu;
-    	
-    	/*for(int i = 0; i < state.length; ++i) {
-    		for(int j = 0; j < state[i].length; ++j) {
-    			
-    			if(state[i][j] == Mark.EMPTY) {
-    				Move move = new Move(i , j);
-    				
-    				board.play(move, m);
-    				
-    				if(isMax) best = Math.max(best, minimax(board, numExploredNodes, !isMax));
-    				else best = Math.min(best, minimax(board,numExploredNodes,!isMax));
-    				
-    				board.UndoMove(move);
-    				
-    			}
-    			
-    		}
-    	}*/
-    	
-    	//J'ai s�par� en deux for loop pour clarit� mais celle au dessus fait la m�me chose
     	
     	if(isMax) {
     		int best = Integer.MIN_VALUE;
@@ -155,41 +132,50 @@ class CPUPlayer
 			return best;
 		}
 	}
-/*
-    private int miniMaxAB(Board board,Mark mark,int alpha, int beta, boolean isMax){
-        Mark max;
-        Mark min;
-        if(isMax){
-            max = cpu;
-            min = player;
-        } else{
-            max = player;
-            min = cpu;
-        }
 
-        if(board.evaluate(mark) != 0 || board.IsFull()){
-            return board.evaluate(mark);
-        }
-        if(isMax){
-            int alphat = Integer.MIN_VALUE;
-            for(int i = 0; i < 3; i++){
-                for(int j = 0; j < 3; j++){
-                    if(board[i][j] == Mark.EMPTY){
-                        Move m = new Move(i,j);
-                        board.play(m,mark);
-                        int score = miniMaxAB(board,min,Math.max(alpha,alphat),beta,!isMax);
-                        alphat = Math.max(alphat,score);
-                        if(alphat >= beta){
-                            return alphat;
-                        }
-                        board.UndoMove(m);
-                    }
-                }
-            }
-            return alphat;
-        }
-        else{
-            //todo: joueur==Min
-        }
-    }*/
+    private int miniMaxAB(Board board,int depth,int alpha, int beta, boolean isMax){
+		numExploredNodes++;
+
+		int score = board.evaluate(cpu);
+
+		if (board.IsFull() || score != 0) return score;
+
+		Mark[][] state = board.getMarks();
+
+		if (isMax) {
+			int best = Integer.MIN_VALUE;
+			Mark m = cpu;
+			for (int i = 0; i < state.length; ++i) {
+				for (int j = 0; j < state[i].length; ++j) {
+					if (state[i][j] == Mark.EMPTY) {
+						Move move = new Move(i, j);
+						board.play(move, m);
+						best = Math.max(best, miniMaxAB(board, depth - 1, Math.max(alpha,best), beta, !isMax));
+						board.UndoMove(move);
+						if (best >= beta) {
+							return best;
+						}
+					}
+				}
+			}
+			return best;
+		} else {
+			int best = Integer.MAX_VALUE;
+			Mark m = player;
+			for (int i = 0; i < state.length; ++i) {
+				for (int j = 0; j < state[i].length; ++j) {
+					if (state[i][j] == Mark.EMPTY) {
+						Move move = new Move(i, j);
+						board.play(move, m);
+						best = Math.min(best, miniMaxAB(board, depth - 1, alpha, Math.min(beta, best), !isMax));
+						board.UndoMove(move);
+						if (best <= alpha) {
+							return best;
+						}
+					}
+				}
+			}
+			return best;
+		}
+    }
 }

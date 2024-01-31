@@ -12,11 +12,20 @@ public class Test {
 
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Welcome to AI tictactoe\n---");
 		Board board = new Board();
 		CPUPlayer ai = new CPUPlayer(Mark.X);
 				
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		String useAlphaBetaText;
+		do{
+			System.out.print("Do you want the AI to use alpha beta? (y/n) > ");
+			useAlphaBetaText = reader.readLine();
+		}while(!useAlphaBetaText.equals("y") && !useAlphaBetaText.equals("n") && !useAlphaBetaText.equals("Y") && !useAlphaBetaText.equals("N"));
+		boolean useAlphaBeta = true;
+		if(useAlphaBetaText.equals("n") || useAlphaBetaText.equals("N")){
+			useAlphaBeta = false;
+		}
 		System.out.println("You are O, AI is X.");
 		while (board.evaluate(Mark.X) == 0 && !board.IsFull())
 		{
@@ -64,7 +73,7 @@ public class Test {
 
 			// Permettre à l'AI de jouer son coup
 			if(!board.IsFull()){
-				ArrayList<Move> aimoves = ai.getNextMoveMinMax(board);
+				ArrayList<Move> aimoves = ai.getNextMoveMinMax(board,useAlphaBeta);
 				board.play(aimoves.get(0),Mark.X);
 				System.out.println("AI has found " + aimoves.size() + " best moves. Picking the first (for now).");
 			}
@@ -73,11 +82,11 @@ public class Test {
 		}
 		if (board.evaluate(Mark.X) == 100)
 		{
-			System.out.println("X wins");
+			System.out.println("CPU wins");
 		}
 		else if (board.evaluate(Mark.X) == -100)
 		{
-			System.out.println("O wins");
+			System.out.println("Player wins");
 		}
 		else
 		{
