@@ -1,5 +1,6 @@
 package src;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 // IMPORTANT: Il ne faut pas changer la signature des méthodes
 // de cette classe, ni le nom de la classe.
@@ -26,6 +27,42 @@ class CPUPlayer
     public int  getNumOfExploredNodes(){
         return numExploredNodes;
     }
+
+	private Mark[][] reflexionHoriz(Board board){
+		Mark[][] marks = board.getMarks();
+		Mark[][] newMarks = board.getMarks();
+		for(int i = 0; i < 3; i++){
+			newMarks[0][i] = marks[2][i];
+			newMarks[2][i] = marks[0][i];
+		}
+		return newMarks;
+	}
+
+	private Mark[][] reflexionVert(Board board){
+		Mark[][] marks = board.getMarks();
+		Mark[][] newMarks = board.getMarks();
+		for(int i = 0; i < 3; i++){
+			newMarks[i][0] = marks[i][0];
+			newMarks[i][2] = marks[i][2];
+		}
+		return newMarks;
+	}
+	private String convertMarksToString(Mark[][] marks){
+		var finalString = new StringBuilder();
+		for(int i = 0; i < 3; i++){
+			for(int j = 0; j < 3; j++){
+				var mark = marks[i][j];
+				if(mark == Mark.EMPTY){
+					finalString.append("0");
+				} else if(mark == Mark.X){
+					finalString.append("1");
+				} else if(mark == Mark.O){
+					finalString.append("2");
+				}
+			}
+		}
+		return finalString.toString();
+	}
 
     // Retourne la liste des coups possibles.  Cette liste contient
     // plusieurs coups possibles si et seuleument si plusieurs coups
@@ -59,8 +96,7 @@ class CPUPlayer
     			
     		}
     	}
-    	
-    	
+    	System.out.println("Number of explored nodes : " + numExploredNodes);
         numExploredNodes = 0;
         return moves;
     }
@@ -108,6 +144,7 @@ class CPUPlayer
     	if(board.IsFull() || score != 0) return score;
     	
     	Mark[][] state = board.getMarks();
+		var uniqueBoards = new HashMap<String,Mark[][]>();
     	
     	if(isMax) {
     		int best = Integer.MIN_VALUE;
@@ -117,8 +154,13 @@ class CPUPlayer
         			if(state[i][j] == Mark.EMPTY) {
         				Move move = new Move(i , j);
             			board.play(move, m);
-            			best = Math.max(best, minimax(board, numExploredNodes, !isMax));
-            			board.UndoMove(move);            			
+
+						var marksString = convertMarksToString(board.getMarks());
+						if(!uniqueBoards.containsKey(convertMarksToString(reflexionHoriz(board))) || !uniqueBoards.containsKey(convertMarksToString(reflexionVert(board)))){
+							uniqueBoards.put(marksString,board.getMarks());
+							best = Math.max(best, minimax(board, numExploredNodes, !isMax));
+						}
+            			board.UndoMove(move);
         			}
         			
         		}
@@ -134,7 +176,11 @@ class CPUPlayer
 
 						Move move = new Move(i, j);
 						board.play(move, m);
-						best = Math.min(best, minimax(board, numExploredNodes, !isMax));
+						var marksString = convertMarksToString(board.getMarks());
+						if(!uniqueBoards.containsKey(convertMarksToString(reflexionHoriz(board))) || !uniqueBoards.containsKey(convertMarksToString(reflexionVert(board)))){
+							uniqueBoards.put(marksString,board.getMarks());
+							best = Math.min(best, minimax(board, numExploredNodes, !isMax));
+						}
 						board.UndoMove(move);
 					}
 				}
