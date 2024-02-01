@@ -29,6 +29,14 @@ public class Test {
 		System.out.println("You are O, AI is X.");
 		while (board.evaluate(Mark.X) == 0 && !board.IsFull())
 		{
+			ArrayList<Move> aimoves = useAlphaBeta ? ai.getNextMoveAB(board) : ai.getNextMoveMinMax(board);
+			board.play(aimoves.get(0),Mark.X);
+			System.out.println("AI has found " + aimoves.size() + " best moves. Picking the first (for now).");
+
+			board.PrintBoard();
+
+			if(board.IsFull())
+				break;
 			System.out.print("Play your piece (ex O 0 0) > ");
 			String input = reader.readLine();
 			String[] inputParts = input.split(" ");
@@ -70,13 +78,6 @@ public class Test {
 
 			Move move = new Move(row,column);
 			board.play(move,mark);
-
-			// Permettre à l'AI de jouer son coup
-			if(!board.IsFull()){
-				ArrayList<Move> aimoves = useAlphaBeta ? ai.getNextMoveAB(board) : ai.getNextMoveMinMax(board);
-				board.play(aimoves.get(0),Mark.X);
-				System.out.println("AI has found " + aimoves.size() + " best moves. Picking the first (for now).");
-			}
 
 			board.PrintBoard();
 		}
