@@ -30,7 +30,7 @@ class CPUPlayer
     // Retourne la liste des coups possibles.  Cette liste contient
     // plusieurs coups possibles si et seuleument si plusieurs coups
     // ont le même score.
-    public ArrayList<Move> getNextMoveMinMax(Board board, boolean useAlphaBeta)
+    public ArrayList<Move> getNextMoveMinMax(Board board)
     {
     	ArrayList<Move> moves = new ArrayList<Move>();
     	int maxVal = Integer.MIN_VALUE;
@@ -44,7 +44,7 @@ class CPUPlayer
     				Move m = new Move(i,j);
     				board.play(m, cpu);
     				
-    				int eval = useAlphaBeta ? miniMaxAB(board,numExploredNodes,Integer.MIN_VALUE,Integer.MAX_VALUE,false) : minimax(board, numExploredNodes, false);
+    				int eval = minimax(board, numExploredNodes, false);
     				board.UndoMove(m);
     				
     				if(eval > maxVal) {
@@ -69,25 +69,35 @@ class CPUPlayer
     // plusieurs coups possibles si et seuleument si plusieurs coups
     // ont le même score.
     public ArrayList<Move> getNextMoveAB(Board board){
+		ArrayList<Move> moves = new ArrayList<Move>();
+		int maxVal = Integer.MIN_VALUE;
 
-        numExploredNodes = 0;
+		Mark[][] state = board.getMarks();
 
-        /**
-         * MinimaxAlphaBeta(posActuelle,joueur,alpha,beta)
-             * si posActuelle est finale
-             *      return f(p)
-             *  si joueur == Max
-             *      alphat = -infini
-             *      foreach(successeurs pi de posActuelle)
-             *          score = MiniMaxAlphaBet(pi,min,MAX(alpha,alphat),beta)
-             *          alphat=MAX(alphat,score)
-             *          if(alphat>=beta)
-             *              return alphat
-             *      return alphat
-             *  si joueur == Min
-         */
+		for(int i = 0; i < state.length; ++i) {
+			for(int j = 0; j < state[i].length; ++j) {
 
-        return null;
+				if(state[i][j] == Mark.EMPTY) {
+					Move m = new Move(i,j);
+					board.play(m, cpu);
+
+					int eval = miniMaxAB(board,numExploredNodes,Integer.MIN_VALUE,Integer.MAX_VALUE,false);
+					board.UndoMove(m);
+
+					if(eval > maxVal) {
+						moves.clear();
+						maxVal = eval;
+						moves.add(m);
+					}
+					else if(eval == maxVal) {
+						moves.add(m);
+					}
+				}
+
+			}
+		}
+		numExploredNodes = 0;
+		return moves;
     }
     
     private int minimax(Board board, int depth, boolean isMax) {

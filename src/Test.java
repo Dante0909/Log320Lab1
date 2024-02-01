@@ -73,7 +73,7 @@ public class Test {
 
 			// Permettre à l'AI de jouer son coup
 			if(!board.IsFull()){
-				ArrayList<Move> aimoves = ai.getNextMoveMinMax(board,useAlphaBeta);
+				ArrayList<Move> aimoves = useAlphaBeta ? ai.getNextMoveAB(board) : ai.getNextMoveMinMax(board);
 				board.play(aimoves.get(0),Mark.X);
 				System.out.println("AI has found " + aimoves.size() + " best moves. Picking the first (for now).");
 			}
