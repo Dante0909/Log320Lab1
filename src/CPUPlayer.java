@@ -34,6 +34,7 @@ class CPUPlayer
     {
     	ArrayList<Move> moves = new ArrayList<Move>();
     	int maxVal = Integer.MIN_VALUE;
+		numExploredNodes = 0;
     	
     	Mark[][] state = board.getMarks();
     	
@@ -59,9 +60,6 @@ class CPUPlayer
     			
     		}
     	}
-    	
-    	
-        numExploredNodes = 0;
         return moves;
     }
 
@@ -71,6 +69,7 @@ class CPUPlayer
     public ArrayList<Move> getNextMoveAB(Board board){
 		ArrayList<Move> moves = new ArrayList<Move>();
 		int maxVal = Integer.MIN_VALUE;
+		numExploredNodes = 0;
 
 		Mark[][] state = board.getMarks();
 
@@ -96,7 +95,6 @@ class CPUPlayer
 
 			}
 		}
-		numExploredNodes = 0;
 		return moves;
     }
     
